@@ -9,10 +9,6 @@ var {User} = require('./models/user');
 var app = express();
 const port = process.env.PORT || 3000;
 
-app.listen(port, () => {
-  console.log(`Started on port ${port}.`)
-});
-
 app.use(bodyParser.json());
 
 app.post('/todos', (req, res) => {
@@ -49,37 +45,23 @@ app.get('/todos/:id', (req, res) => {
   });
 });
 
+app.delete('/todos/:id', (req, res) => {
+  var id = req.params.id;
+  if (!ObjectID.isValid(id)) {
+    return res.status(404).send();
+  }
+  Todo.findByIdAndRemove(id).then((todo) => {
+    if (!todo) {
+      return res.status(404).send();
+    }
+    res.send(todo);
+  }).catch((e) => {
+    res.status(400).send();
+  });
+});
+
+app.listen(port, () => {
+  console.log(`Started on port ${port}.`)
+});
+
 module.exports = {app};
-
-
-// var user = new User({
-//   email: 'fake@email.com'
-// });
-//
-// user.save().then((doc) => {
-//   console.log('Saved user', doc);
-// }, (e)=> {
-//   console.log('Unable to save item')
-// });
-
-// var newTodo = new Todo({
-//   text: 'Cook dinner'
-// });
-//
-// newTodo.save().then((doc) => {
-//   console.log('Saved todo', doc);
-// }, (e) => {
-//   console.log('Unable to save item')
-// });
-//
-// var otherTodo = new Todo({
-//   text: 'Drink coffee',
-//   completed: true,
-//   completedAt: 1
-// });
-//
-// otherTodo.save().then((doc) => {
-//   console.log(JSON.stringify(doc, undefined, 2));
-// }, (e) => {
-//   console.log('Unable to save item')
-// });
