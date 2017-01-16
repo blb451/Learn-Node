@@ -2,6 +2,10 @@
   "name": "node-todo-api",
   "version": "1.0.0",
   "main": "index.js",
+  "scripts": {
+    "test": "mocha server/**/*.test.js",
+    "test-watch": "nodemon --exec 'yarn test'"
+  },
   "license": "MIT",
   "dependencies": {
     "body-parser": "^1.15.2",
