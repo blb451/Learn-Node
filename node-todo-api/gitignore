@@ -7,6 +7,9 @@ logs
 *.log
 npm-debug.log*
 
+# Config
+server/config/config.json
+
 # Runtime data
 pids
 *.pid
